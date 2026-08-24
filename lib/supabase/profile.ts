@@ -61,3 +61,10 @@ export async function updatePassword(
   const { error } = await supabase.auth.updateUser({ password: newPassword });
   if (error) throw error;
 }
+
+// 회원 탈퇴(본인 계정 삭제). RPC 로 auth.users 삭제 → 연관 데이터 cascade.
+export async function deleteAccount(supabase: SupabaseClient): Promise<void> {
+  const { error } = await supabase.rpc("delete_own_account");
+  if (error) throw error;
+  await supabase.auth.signOut();
+}

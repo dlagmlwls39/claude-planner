@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createBrowserSupabase } from "@/lib/supabase/client";
 import { getMyProfile } from "@/lib/supabase/friends";
-import { updateMyProfile, uploadAvatar, updatePassword } from "@/lib/supabase/profile";
+import { updateMyProfile, uploadAvatar, updatePassword, deleteAccount } from "@/lib/supabase/profile";
 import { Avatar } from "@/components/ui/Avatar";
 import type { Profile } from "@/lib/types";
 
@@ -26,6 +26,11 @@ export default function ProfilePage() {
   const [pw2, setPw2] = useState("");
   const [pwSaving, setPwSaving] = useState(false);
   const [pwMsg, setPwMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
+
+  // 회원 탈퇴
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteErr, setDeleteErr] = useState<string | null>(null);
 
   useEffect(() => {
     getMyProfile(supabase).then(setProfile).catch(console.error);
@@ -119,6 +124,18 @@ export default function ProfilePage() {
   async function logout() {
     await supabase.auth.signOut();
     router.push("/login");
+  }
+
+  async function handleDeleteAccount() {
+    setDeleting(true);
+    setDeleteErr(null);
+    try {
+      await deleteAccount(supabase);
+      router.push("/login");
+    } catch (err) {
+      setDeleteErr(err instanceof Error ? err.message : "탈퇴에 실패했어요.");
+      setDeleting(false);
+    }
   }
 
   const hasPhoto = !!preview && !removePhoto;
@@ -266,9 +283,44 @@ export default function ProfilePage() {
       )}
 
       {!editing && (
-        <button onClick={logout} className="btn btn-ghost w-full py-3">
-          로그아웃
-        </button>
+        <>
+          <button onClick={logout} className="btn btn-ghost w-full py-3">
+            로그아웃
+          </button>
+          <button
+            onClick={() => { setDeleteErr(null); setConfirmDelete(true); }}
+            className="w-full py-2 text-center text-sm text-ink/40 hover:text-rose-400"
+          >
+            회원 탈퇴
+          </button>
+        </>
+      )}
+
+      {confirmDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-6">
+          <div className="absolute inset-0 bg-ink/30 backdrop-blur-[1px]"
+            onClick={() => !deleting && setConfirmDelete(false)} />
+          <div className="card relative w-full max-w-[340px] p-6 text-center">
+            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-100 text-2xl">
+              ⚠️
+            </div>
+            <h2 className="text-lg font-bold text-ink">정말 탈퇴하시겠어요?</h2>
+            <p className="mt-2 text-sm leading-relaxed text-ink/60">
+              내 일정·할 일·친구·프로필이 모두 삭제되며
+              <br />
+              되돌릴 수 없어요.
+            </p>
+            {deleteErr && <p className="mt-3 text-sm text-rose-400">{deleteErr}</p>}
+            <div className="mt-5 flex gap-2">
+              <button onClick={() => setConfirmDelete(false)} disabled={deleting}
+                className="btn btn-ghost flex-1 py-2.5">취소</button>
+              <button onClick={handleDeleteAccount} disabled={deleting}
+                className="btn flex-1 py-2.5 bg-rose-400 text-white">
+                {deleting ? "탈퇴 중…" : "탈퇴하기"}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
