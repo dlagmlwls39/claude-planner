@@ -39,13 +39,19 @@ export function EventInviteList() {
           </div>
           <div className="flex flex-col gap-1">
             <button
-              onClick={async () => { await acceptEventInvite(supabase, inviteId); reload(); }}
+              onClick={async () => {
+                try { await acceptEventInvite(supabase, inviteId); reload(); }
+                catch (err) { console.error(err); }
+              }}
               className="btn btn-primary px-3 py-1 text-sm"
             >
               수락
             </button>
             <button
-              onClick={async () => { await declineEventInvite(supabase, inviteId); reload(); }}
+              onClick={async () => {
+                try { await declineEventInvite(supabase, inviteId); reload(); }
+                catch (err) { console.error(err); }
+              }}
               className="btn btn-ghost px-3 py-1 text-sm"
             >
               거절

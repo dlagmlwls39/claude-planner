@@ -13,7 +13,7 @@ export function EventForm({
 }: {
   date: string;
   initial?: EventRow;
-  onSubmit: (input: EventInput, friendIds: string[]) => void;
+  onSubmit: (input: EventInput, friendIds: string[]) => void | Promise<void>;
   onCancel: () => void;
 }) {
   const isNew = !initial;
@@ -29,6 +29,8 @@ export function EventForm({
   const [withFriends, setWithFriends] = useState(false);
   const [friends, setFriends] = useState<Profile[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (isNew && withFriends && friends.length === 0) {
@@ -43,19 +45,27 @@ export function EventForm({
     );
   }
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
-    onSubmit(
-      {
-        title: title.trim(),
-        date,
-        is_all_day: isAllDay,
-        start_time: isAllDay ? null : (start || null),
-        end_time: isAllDay ? null : (end || null),
-        color, memo: memo.trim() || null, is_public: isPublic,
-      },
-      withFriends ? selected : []
-    );
+    setError(null);
+    setSaving(true);
+    try {
+      await onSubmit(
+        {
+          title: title.trim(),
+          date,
+          is_all_day: isAllDay,
+          start_time: isAllDay ? null : (start || null),
+          end_time: isAllDay ? null : (end || null),
+          color, memo: memo.trim() || null, is_public: isPublic,
+        },
+        withFriends ? selected : []
+      );
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "저장에 실패했어요.");
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -119,10 +129,14 @@ export function EventForm({
         </div>
       )}
 
+      {error && <p className="text-sm text-rose-400">{error}</p>}
+
       <div className="flex gap-2 pt-2">
-        <button type="button" onClick={onCancel}
+        <button type="button" onClick={onCancel} disabled={saving}
           className="btn btn-ghost flex-1 py-2.5">취소</button>
-        <button className="btn btn-primary flex-1 py-2.5">저장</button>
+        <button disabled={saving} className="btn btn-primary flex-1 py-2.5">
+          {saving ? "저장 중…" : "저장"}
+        </button>
       </div>
     </form>
   );
