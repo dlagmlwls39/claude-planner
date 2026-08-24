@@ -10,7 +10,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
   if (!user) redirect("/login");
 
   return (
-    <div className="mx-auto max-w-[480px] min-h-screen bg-cream pb-24">
+    <div className="mx-auto w-full max-w-[480px] min-h-screen bg-cream pb-24">
       {children}
       <BottomTabBar />
     </div>

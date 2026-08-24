@@ -6,13 +6,13 @@
     </linearGradient>
   </defs>
   <rect width="64" height="64" rx="16" fill="url(#bg)"/>
-  <rect x="21" y="9" width="5" height="12" rx="2.5" fill="#eaf4fc"/>
-  <rect x="38" y="9" width="5" height="12" rx="2.5" fill="#eaf4fc"/>
-  <rect x="13" y="15" width="38" height="35" rx="7" fill="#ffffff"/>
-  <path d="M13 22a7 7 0 0 1 7-7h24a7 7 0 0 1 7 7v3H13z" fill="#3a8ad0"/>
-  <circle cx="24" cy="34" r="3" fill="#9fe3cf"/>
-  <circle cx="32" cy="34" r="3" fill="#ffd7c4"/>
-  <circle cx="40" cy="34" r="3" fill="#d9d6fb"/>
-  <circle cx="24" cy="43" r="3" fill="#dbedfb"/>
-  <circle cx="32" cy="43" r="3" fill="#9fe3cf"/>
+  <rect x="21.5" y="10" width="4.5" height="9" rx="2.25" fill="#ffffff" opacity="0.9"/>
+  <rect x="38" y="10" width="4.5" height="9" rx="2.25" fill="#ffffff" opacity="0.9"/>
+  <rect x="14" y="16" width="36" height="34" rx="8" fill="#ffffff"/>
+  <path d="M14 25V24a8 8 0 0 1 8-8h20a8 8 0 0 1 8 8v1z" fill="#3a8ad0"/>
+  <circle cx="23" cy="33" r="2.1" fill="#c3e1fa"/>
+  <circle cx="32" cy="33" r="2.1" fill="#c3e1fa"/>
+  <circle cx="41" cy="33" r="2.6" fill="#9fe3cf"/>
+  <circle cx="23" cy="42" r="2.1" fill="#c3e1fa"/>
+  <circle cx="32" cy="42" r="2.1" fill="#c3e1fa"/>
 </svg>
