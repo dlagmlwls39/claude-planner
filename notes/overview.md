@@ -15,15 +15,27 @@ Next.js(App Router) + TypeScript + Tailwind v4 + Supabase(Auth/DB/RLS), Vercel �
 - `components/calendar/*` — MonthGrid/DayCell/DaySheet/EventForm
 - `components/ui/*` — BottomTabBar, BottomSheet
 - `components/friends/*`, `components/todos/*`
-- `lib/supabase/*` — client/server/events/todos/friends 쿼리 래퍼
+- `lib/supabase/*` — client/server/events/todos/friends/profile/event-invites 쿼리 래퍼
+- `components/ui/Avatar.tsx` — 사진/색상 공용 아바타, `components/friends/EventInviteList.tsx` — 받은 일정 초대
 - `app/globals.css` — 하늘색 디자인 시스템(팔레트 + .card/.field/.btn)
+
+## 주요 기능
+- 캘린더/일정 CRUD, 개인 투두(상시/날짜별), 친구 검색·요청·수락, 친구 공개 일정 읽기.
+- 프로필 수정: 닉네임, 프로필 사진 업로드/삭제(Storage), 비밀번호 변경.
+- 친구와 함께 일정: 초대→수락 방식의 공유 일정(원본 1개 + event_participants).
+  주최자 수정/삭제가 참여자 전원 반영. 조회 시 `is_shared` 계산해 '함께' 칩 표시.
+
+## 마이그레이션 (Supabase SQL Editor 실행 필요)
+- `0001_init.sql` — 기본 테이블 + RLS
+- `0002_avatar_upload.sql` — profiles.avatar_url + avatars 버킷/정책
+- `0003_event_participants.sql` — 공유 일정 참여자 테이블 + RLS/헬퍼
 
 ## 디자인 시스템 (2026-08-24 개편)
 - 하늘색 기반 파스텔. 토큰: `brand`/`brand-dark`/`brand-soft`/`cream`/`mint`/`ink`/`line`.
 - 공통 클래스 `.card` `.field` `.btn(-primary/-soft/-mint/-ghost)`로 통일.
 - 모든 메인 페이지 루트 여백은 `px-4 pt-6`으로 고정(탭 간 가로폭 일관성).
 - 폰트: 나눔스퀘어 네오(NanumSquareNeo) 가변폰트 self-host(`public/fonts/NanumSquareNeo-Variable.woff2`, 300~900).
-  타이틀은 `font-extrabold`(800). 탭/파비콘은 통일된 SVG 아이콘(`components/ui/icons.tsx`).
+  타이틀은 `font-bold`. 탭/파비콘은 통일된 SVG 아이콘(`components/ui/icons.tsx`).
 
 ## 배포/환경
 - `.env.local`: `NEXT_PUBLIC_SUPABASE_URL`(프로젝트 URL, 경로 없이), `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
