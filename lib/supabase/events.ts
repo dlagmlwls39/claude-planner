@@ -16,6 +16,24 @@ export async function listMyEventsInRange(
   return (data ?? []) as EventRow[];
 }
 
+export async function listFriendEventsInRange(
+  supabase: SupabaseClient,
+  friendId: string,
+  startISO: string,
+  endISO: string
+): Promise<EventRow[]> {
+  const { data, error } = await supabase
+    .from("events")
+    .select("*")
+    .eq("user_id", friendId)
+    .gte("date", startISO)
+    .lte("date", endISO)
+    .order("date");
+  if (error) throw error;
+  // RLS 정책상 is_public=true 이면서 친구인 행만 돌아온다.
+  return (data ?? []) as EventRow[];
+}
+
 export type EventInput = {
   title: string;
   date: string;
