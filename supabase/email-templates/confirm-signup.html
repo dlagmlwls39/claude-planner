@@ -1,0 +1,64 @@
+<!--
+  Supabase 인증 메일 템플릿 (Confirm signup)
+  붙여넣는 곳: Supabase 대시보드 → Authentication → Emails → Templates → "Confirm signup"
+  - Subject 예시: 우리 캘린더 이메일 인증을 완료해 주세요 🗓️
+  - 아래 HTML 전체를 Message body(HTML) 에 붙여넣기
+  - 인증 링크 변수는 {{ .ConfirmationURL }} 를 사용
+-->
+<!DOCTYPE html>
+<html lang="ko">
+  <body style="margin:0; padding:0; background:#eef6fd;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef6fd; padding:32px 12px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:440px; background:#ffffff; border:1px solid #e2edf8; border-radius:20px; overflow:hidden; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;">
+            <tr>
+              <td align="center" style="background:linear-gradient(180deg,#7cc4f0,#5aa9e6); padding:36px 24px 28px;">
+                <div style="width:64px; height:64px; line-height:64px; margin:0 auto 12px; background:rgba(255,255,255,0.9); border-radius:18px; font-size:34px;">🗓️</div>
+                <div style="color:#ffffff; font-size:20px; font-weight:700;">우리 캘린더</div>
+                <div style="color:#eaf4fc; font-size:13px; margin-top:4px;">친구와 나누는 일정 다이어리</div>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:32px 28px 8px;">
+                <h1 style="margin:0 0 12px; font-size:19px; color:#45526a;">이메일 인증을 완료해 주세요</h1>
+                <p style="margin:0; font-size:14px; line-height:1.7; color:#6b7688;">
+                  가입해 주셔서 고마워요! 아래 버튼을 눌러 이메일 인증을 완료하면
+                  바로 캘린더를 시작할 수 있어요.
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="padding:24px 28px 8px;">
+                <a href="{{ .ConfirmationURL }}"
+                   style="display:inline-block; background:#5aa9e6; color:#ffffff; text-decoration:none; font-size:15px; font-weight:700; padding:14px 32px; border-radius:14px;">
+                  이메일 인증하기
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:16px 28px 4px;">
+                <p style="margin:0; font-size:12px; line-height:1.6; color:#9aa4b4;">
+                  버튼이 눌리지 않으면 아래 주소를 복사해 브라우저에 붙여넣어 주세요.
+                </p>
+                <p style="margin:6px 0 0; font-size:12px; word-break:break-all;">
+                  <a href="{{ .ConfirmationURL }}" style="color:#3a8ad0;">{{ .ConfirmationURL }}</a>
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:20px 28px 28px;">
+                <div style="border-top:1px solid #e2edf8; padding-top:16px;">
+                  <p style="margin:0; font-size:11px; line-height:1.6; color:#aab4c4;">
+                    본인이 요청하지 않았다면 이 메일은 무시하셔도 됩니다.<br/>
+                    © 우리 캘린더
+                  </p>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
