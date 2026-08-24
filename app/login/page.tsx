@@ -91,7 +91,7 @@ export default function LoginPage() {
             className="btn btn-primary w-full py-3"
             disabled={loading}
           >
-            {loading ? "로그인 중..." : mode === "login" ? "로그인" : "가입하기"}
+            {loading ? "로딩중" : mode === "login" ? "로그인" : "가입하기"}
           </button>
           <button
             type="button"
