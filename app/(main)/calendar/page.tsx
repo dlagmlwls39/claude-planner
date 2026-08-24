@@ -2,8 +2,10 @@
 import { useEffect, useState } from "react";
 import { createBrowserSupabase } from "@/lib/supabase/client";
 import { listMyEventsInRange } from "@/lib/supabase/events";
-import { getMonthMatrix, toISODate } from "@/lib/date";
+import { getMonthMatrix, toISODate, isSameDay } from "@/lib/date";
 import { MonthGrid } from "@/components/calendar/MonthGrid";
+import { BottomSheet } from "@/components/ui/BottomSheet";
+import { DaySheet } from "@/components/calendar/DaySheet";
 import type { EventRow } from "@/lib/types";
 
 export default function CalendarPage() {
@@ -11,16 +13,22 @@ export default function CalendarPage() {
   const [cursor, setCursor] = useState(new Date());
   const [selected, setSelected] = useState(new Date());
   const [events, setEvents] = useState<EventRow[]>([]);
+  const [sheetOpen, setSheetOpen] = useState(false);
 
   const year = cursor.getFullYear();
   const month = cursor.getMonth();
 
-  useEffect(() => {
+  function reload() {
     const matrix = getMonthMatrix(year, month);
-    const startISO = toISODate(matrix[0][0]);
-    const endISO = toISODate(matrix[5][6]);
-    listMyEventsInRange(supabase, startISO, endISO).then(setEvents).catch(console.error);
-  }, [year, month]);
+    listMyEventsInRange(supabase, toISODate(matrix[0][0]), toISODate(matrix[5][6]))
+      .then(setEvents).catch(console.error);
+  }
+  useEffect(reload, [year, month]);
+
+  function handleSelect(d: Date) {
+    setSelected(d);
+    setSheetOpen(true);
+  }
 
   return (
     <div className="pt-4">
@@ -31,8 +39,15 @@ export default function CalendarPage() {
       </header>
       <MonthGrid
         year={year} month={month} events={events}
-        selectedDate={selected} onSelectDate={setSelected}
+        selectedDate={selected} onSelectDate={handleSelect}
       />
+      <BottomSheet open={sheetOpen} onClose={() => setSheetOpen(false)}>
+        <DaySheet
+          dateISO={toISODate(selected)}
+          events={events.filter((e) => isSameDay(new Date(e.date + "T00:00"), selected))}
+          onChanged={reload}
+        />
+      </BottomSheet>
     </div>
   );
 }
