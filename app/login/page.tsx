@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createBrowserSupabase } from "@/lib/supabase/client";
 import { ensureProfile } from "@/lib/supabase/friends";
+import { translateAuthError } from "@/lib/auth-errors";
+import { CalendarIcon } from "@/components/ui/icons";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -40,7 +42,7 @@ export default function LoginPage() {
       }
       router.push("/calendar");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "오류가 발생했어요");
+      setError(translateAuthError(err));
     } finally {
       setLoading(false);
     }
@@ -50,10 +52,10 @@ export default function LoginPage() {
     <main className="min-h-screen bg-cream flex items-center justify-center px-6">
       <div className="w-full max-w-[400px]">
         <div className="mb-6 text-center">
-          <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-3xl bg-brand-soft text-3xl shadow-sm">
-            🗓️
+          <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-3xl bg-brand text-white shadow-sm">
+            <CalendarIcon className="h-8 w-8" />
           </div>
-          <h1 className="text-2xl font-bold text-ink">
+          <h1 className="text-2xl font-extrabold text-ink">
             {mode === "login" ? "다시 만나서 반가워요" : "함께 시작해요"}
           </h1>
           <p className="mt-1 text-sm text-ink/50">친구와 나누는 일정 다이어리</p>

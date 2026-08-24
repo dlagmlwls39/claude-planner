@@ -1,14 +1,45 @@
 @import "tailwindcss";
 
+/* 네이버 나눔스퀘어 (self-host) */
+@font-face {
+  font-family: "NanumSquare";
+  src: url("/fonts/NanumSquareL.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "NanumSquare";
+  src: url("/fonts/NanumSquareR.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "NanumSquare";
+  src: url("/fonts/NanumSquareB.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "NanumSquare";
+  src: url("/fonts/NanumSquareEB.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #eef6fd;
   --foreground: #45526a;
+  --font-kr: "NanumSquare", var(--font-geist-sans), system-ui, sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: "NanumSquare", var(--font-geist-sans), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
 
   /* 하늘색 기반 파스텔 팔레트 */
@@ -26,6 +57,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
+  font-family: var(--font-kr);
   -webkit-font-smoothing: antialiased;
 }
 

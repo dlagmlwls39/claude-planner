@@ -21,7 +21,7 @@ export default function ProfilePage() {
 
   return (
     <div className="px-4 pt-6 space-y-4">
-      <h1 className="text-2xl font-bold text-ink">내 정보 🐰</h1>
+      <h1 className="text-2xl font-extrabold text-ink">내 정보</h1>
       {profile && (
         <div className="card p-5 space-y-4">
           <div className="flex items-center gap-4">

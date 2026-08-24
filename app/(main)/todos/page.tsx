@@ -25,7 +25,7 @@ export default function TodosPage() {
 
   return (
     <div className="px-4 pt-6 space-y-4">
-      <h1 className="text-2xl font-bold text-ink">할 일 ✅</h1>
+      <h1 className="text-2xl font-extrabold text-ink">할 일</h1>
       <form onSubmit={add} className="flex gap-2">
         <input
           className="field flex-1"
