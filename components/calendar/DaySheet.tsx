@@ -1,8 +1,10 @@
 "use client";
-import { useState } from "react";
-import type { EventRow } from "@/lib/types";
+import { useEffect, useState } from "react";
+import type { EventRow, TodoRow } from "@/lib/types";
 import { createBrowserSupabase } from "@/lib/supabase/client";
 import { createEvent, updateEvent, deleteEvent, type EventInput } from "@/lib/supabase/events";
+import { listTodosByDate, createTodo, toggleTodo, deleteTodo } from "@/lib/supabase/todos";
+import { TodoItem } from "@/components/todos/TodoItem";
 import { EventForm } from "./EventForm";
 
 export function DaySheet({
@@ -14,6 +16,13 @@ export function DaySheet({
 }) {
   const supabase = createBrowserSupabase();
   const [editing, setEditing] = useState<EventRow | "new" | null>(null);
+  const [todos, setTodos] = useState<TodoRow[]>([]);
+  const [todoTitle, setTodoTitle] = useState("");
+
+  function reloadTodos() {
+    listTodosByDate(supabase, dateISO).then(setTodos).catch(console.error);
+  }
+  useEffect(reloadTodos, [dateISO]);
 
   async function handleSubmit(input: EventInput) {
     if (editing === "new") await createEvent(supabase, input);
@@ -57,6 +66,35 @@ export function DaySheet({
           <button onClick={() => handleDelete(e.id)} className="text-sm text-red-400">삭제</button>
         </div>
       ))}
+      <div className="pt-4 space-y-2">
+        <h3 className="font-semibold text-sm">이 날 할 일</h3>
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            if (!todoTitle.trim()) return;
+            await createTodo(supabase, todoTitle.trim(), dateISO);
+            setTodoTitle("");
+            reloadTodos();
+          }}
+          className="flex gap-2"
+        >
+          <input
+            className="flex-1 rounded-xl border px-3 py-2"
+            placeholder="할 일 추가"
+            value={todoTitle}
+            onChange={(e) => setTodoTitle(e.target.value)}
+          />
+          <button className="rounded-xl bg-pastel-mint px-4">+</button>
+        </form>
+        {todos.map((t) => (
+          <TodoItem
+            key={t.id}
+            todo={t}
+            onToggle={async (done) => { await toggleTodo(supabase, t.id, done); reloadTodos(); }}
+            onDelete={async () => { await deleteTodo(supabase, t.id); reloadTodos(); }}
+          />
+        ))}
+      </div>
     </div>
   );
 }
