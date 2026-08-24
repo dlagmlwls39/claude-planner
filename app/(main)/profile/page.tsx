@@ -133,8 +133,15 @@ export default function ProfilePage() {
       await deleteAccount(supabase);
       router.push("/login");
     } catch (err) {
-      setDeleteErr(err instanceof Error ? err.message : "탈퇴에 실패했어요.");
+      const msg =
+        err instanceof Error
+          ? err.message
+          : err && typeof err === "object" && "message" in err
+            ? String((err as { message: unknown }).message)
+            : "탈퇴에 실패했어요.";
+      setDeleteErr(msg);
       setDeleting(false);
+      console.error("deleteAccount error:", err);
     }
   }
 
