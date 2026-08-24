@@ -5,6 +5,7 @@ import { createBrowserSupabase } from "@/lib/supabase/client";
 import { createEvent, updateEvent, deleteEvent, type EventInput } from "@/lib/supabase/events";
 import { listTodosByDate, createTodo, toggleTodo, deleteTodo } from "@/lib/supabase/todos";
 import { TodoItem } from "@/components/todos/TodoItem";
+import { FriendsIcon } from "@/components/ui/icons";
 import { EventForm } from "./EventForm";
 
 export function DaySheet({
@@ -59,7 +60,12 @@ export function DaySheet({
         <div key={e.id} className="card flex items-center gap-3 p-3.5">
           <span className="w-1.5 h-9 rounded-full" style={{ backgroundColor: e.color }} />
           <div className="flex-1">
-            <p className="font-medium text-ink">{e.title} {e.is_public && "🌷"}</p>
+            <p className="flex items-center gap-1 font-medium text-ink">
+              {e.title}
+              {e.is_public && (
+                <FriendsIcon className="h-4 w-4 shrink-0 text-brand-dark" />
+              )}
+            </p>
             {!e.is_all_day && <p className="text-xs text-ink/45">{e.start_time}~{e.end_time}</p>}
           </div>
           <button onClick={() => setEditing(e)} className="text-sm text-brand-dark">수정</button>
@@ -84,7 +90,7 @@ export function DaySheet({
             value={todoTitle}
             onChange={(e) => setTodoTitle(e.target.value)}
           />
-          <button className="btn btn-mint px-4 text-xl">+</button>
+          <button className="btn btn-primary px-4 text-xl">+</button>
         </form>
         {todos.map((t) => (
           <TodoItem

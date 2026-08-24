@@ -61,7 +61,7 @@ export default function CalendarPage() {
           <button
             type="button"
             onClick={openPicker}
-            className="rounded-full bg-brand-soft px-3 py-1.5 text-lg font-extrabold text-ink transition hover:bg-brand-soft/80"
+            className="rounded-full px-3 py-1.5 text-lg font-bold text-ink transition hover:bg-brand-soft"
           >
             {year}년 {month + 1}월
           </button>

@@ -6,7 +6,7 @@ import { CalendarIcon, FriendsIcon, CheckIcon, UserIcon } from "./icons";
 const TABS = [
   { href: "/calendar", label: "캘린더", Icon: CalendarIcon },
   { href: "/friends", label: "친구", Icon: FriendsIcon },
-  { href: "/todos", label: "투두", Icon: CheckIcon },
+  { href: "/todos", label: "할 일", Icon: CheckIcon },
   { href: "/profile", label: "내정보", Icon: UserIcon },
 ];
 

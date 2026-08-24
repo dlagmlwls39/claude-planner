@@ -16,7 +16,7 @@ export function TodoItem({
         type="checkbox"
         checked={todo.is_done}
         onChange={(e) => onToggle(e.target.checked)}
-        className="h-5 w-5 shrink-0 accent-brand"
+        className="h-5 w-5 shrink-0 accent-[#9fcdf0]"
       />
       <span className={`flex-1 text-ink ${todo.is_done ? "line-through text-ink/35" : ""}`}>
         {todo.title}
