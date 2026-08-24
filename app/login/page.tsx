@@ -55,7 +55,7 @@ export default function LoginPage() {
           <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-3xl bg-brand text-white shadow-sm">
             <CalendarIcon className="h-8 w-8" />
           </div>
-          <h1 className="text-2xl font-extrabold text-ink">
+          <h1 className="text-2xl font-bold text-ink">
             {mode === "login" ? "다시 만나서 반가워요" : "함께 시작해요"}
           </h1>
           <p className="mt-1 text-sm text-ink/50">친구와 나누는 일정 다이어리</p>
@@ -91,7 +91,7 @@ export default function LoginPage() {
             className="btn btn-primary w-full py-3"
             disabled={loading}
           >
-            {loading ? "잠시만요…" : mode === "login" ? "로그인" : "가입하기"}
+            {loading ? "로그인 중..." : mode === "login" ? "로그인" : "가입하기"}
           </button>
           <button
             type="button"

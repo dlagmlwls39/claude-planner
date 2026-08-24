@@ -40,7 +40,7 @@ export default function FriendCalendarPage() {
         >
           ‹
         </button>
-        <h1 className="text-lg font-extrabold text-ink">친구 캘린더</h1>
+        <h1 className="text-lg font-bold text-ink">친구 캘린더</h1>
         <button
           onClick={() => setCursor(new Date(year, month + 1, 1))}
           className="flex h-9 w-9 items-center justify-center rounded-full text-brand-dark hover:bg-brand-soft"
