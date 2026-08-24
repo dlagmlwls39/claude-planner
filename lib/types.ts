@@ -3,6 +3,7 @@ export type Profile = {
   nickname: string;
   friend_code: string;
   avatar_color: string;
+  avatar_url: string | null;
   created_at: string;
 };
 

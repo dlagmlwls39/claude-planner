@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { createBrowserSupabase } from "@/lib/supabase/client";
 import { listFriends, listIncomingRequests, acceptFriend } from "@/lib/supabase/friends";
+import { Avatar } from "@/components/ui/Avatar";
 import type { Profile, Friendship } from "@/lib/types";
 
 export function FriendList({ refreshKey }: { refreshKey: number }) {
@@ -28,10 +29,7 @@ export function FriendList({ refreshKey }: { refreshKey: number }) {
               key={friendship.id}
               className="card flex items-center gap-3 p-3.5"
             >
-              <span
-                className="w-9 h-9 rounded-full ring-2 ring-white shadow-sm"
-                style={{ backgroundColor: profile.avatar_color }}
-              />
+              <Avatar url={profile.avatar_url} color={profile.avatar_color} nickname={profile.nickname} />
               <span className="flex-1 text-ink font-medium">{profile.nickname}</span>
               <button
                 onClick={async () => {
@@ -57,10 +55,7 @@ export function FriendList({ refreshKey }: { refreshKey: number }) {
             href={`/friends/${f.id}`}
             className="card flex items-center gap-3 p-3.5 transition-transform active:scale-[0.99]"
           >
-            <span
-              className="w-9 h-9 rounded-full ring-2 ring-white shadow-sm"
-              style={{ backgroundColor: f.avatar_color }}
-            />
+            <Avatar url={f.avatar_url} color={f.avatar_color} nickname={f.nickname} />
             <span className="flex-1 text-ink font-medium">{f.nickname}</span>
             <span className="text-brand-dark/50">›</span>
           </Link>

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { createBrowserSupabase } from "@/lib/supabase/client";
 import { findProfile, sendFriendRequest } from "@/lib/supabase/friends";
+import { Avatar } from "@/components/ui/Avatar";
 import type { Profile } from "@/lib/types";
 
 export function FriendSearch({ onRequested }: { onRequested: () => void }) {
@@ -44,10 +45,7 @@ export function FriendSearch({ onRequested }: { onRequested: () => void }) {
       </form>
       {result && (
         <div className="card flex items-center gap-3 p-3.5">
-          <span
-            className="w-9 h-9 rounded-full ring-2 ring-white shadow-sm"
-            style={{ backgroundColor: result.avatar_color }}
-          />
+          <Avatar url={result.avatar_url} color={result.avatar_color} nickname={result.nickname} />
           <span className="flex-1 text-ink font-medium">{result.nickname}</span>
           <button onClick={request} className="btn btn-mint px-4 py-1.5 text-sm">
             요청
