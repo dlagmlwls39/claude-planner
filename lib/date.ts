@@ -27,3 +27,8 @@ export function getMonthMatrix(year: number, month: number): Date[][] {
   }
   return weeks;
 }
+
+export function getYearOptions(currentYear: number, range = 10): number[] {
+  const startYear = currentYear - range;
+  return Array.from({ length: range * 2 + 1 }, (_, index) => startYear + index);
+}
