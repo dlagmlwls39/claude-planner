@@ -62,8 +62,27 @@ export async function updatePassword(
   if (error) throw error;
 }
 
-// 회원 탈퇴(본인 계정 삭제). RPC 로 auth.users 삭제 → 연관 데이터 cascade.
+// 회원 탈퇴(본인 계정 삭제). 아바타 파일은 Storage API 로 정리 후,
+// RPC 로 auth.users 삭제 → 연관 데이터 cascade.
 export async function deleteAccount(supabase: SupabaseClient): Promise<void> {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // 아바타 파일 정리(best-effort — 실패해도 탈퇴는 진행)
+  if (user) {
+    try {
+      const { data: files } = await supabase.storage.from("avatars").list(user.id);
+      if (files && files.length > 0) {
+        await supabase.storage
+          .from("avatars")
+          .remove(files.map((f) => `${user.id}/${f.name}`));
+      }
+    } catch {
+      // 무시
+    }
+  }
+
   const { error } = await supabase.rpc("delete_own_account");
   if (error) throw error;
   await supabase.auth.signOut();

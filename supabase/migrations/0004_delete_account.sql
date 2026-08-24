@@ -6,6 +6,8 @@
 -- profiles/events/todos/friendships/event_participants 는 auth.users FK 의
 -- on delete cascade 로 함께 삭제된다.
 
+-- 주의: storage.objects 는 SQL 직접 삭제가 막혀 있으므로 여기서 지우지 않는다.
+--       아바타 파일은 클라이언트에서 Storage API 로 먼저 정리한다.
 create or replace function delete_own_account()
 returns void
 language plpgsql
@@ -13,11 +15,7 @@ security definer
 set search_path = public
 as $$
 begin
-  -- 본인 아바타 파일 정리
-  delete from storage.objects
-  where bucket_id = 'avatars' and owner = auth.uid();
-
-  -- 본인 계정 삭제 (연관 데이터는 FK cascade)
+  -- 본인 계정 삭제 (profiles/events/todos/friendships/event_participants 는 FK cascade)
   delete from auth.users where id = auth.uid();
 end;
 $$;
