@@ -22,23 +22,23 @@ export function FriendList({ refreshKey }: { refreshKey: number }) {
     <div className="space-y-4">
       {requests.length > 0 && (
         <section className="space-y-2">
-          <h2 className="font-semibold text-sm">받은 요청</h2>
+          <h2 className="text-sm font-semibold text-ink/70">받은 요청</h2>
           {requests.map(({ friendship, profile }) => (
             <div
               key={friendship.id}
-              className="flex items-center gap-2 rounded-xl border p-3"
+              className="card flex items-center gap-3 p-3.5"
             >
               <span
-                className="w-8 h-8 rounded-full"
+                className="w-9 h-9 rounded-full ring-2 ring-white shadow-sm"
                 style={{ backgroundColor: profile.avatar_color }}
               />
-              <span className="flex-1">{profile.nickname}</span>
+              <span className="flex-1 text-ink font-medium">{profile.nickname}</span>
               <button
                 onClick={async () => {
                   await acceptFriend(supabase, friendship.id);
                   reload();
                 }}
-                className="rounded-full bg-pastel-mint px-3 py-1 text-sm"
+                className="btn btn-mint px-4 py-1.5 text-sm"
               >
                 수락
               </button>
@@ -47,22 +47,22 @@ export function FriendList({ refreshKey }: { refreshKey: number }) {
         </section>
       )}
       <section className="space-y-2">
-        <h2 className="font-semibold text-sm">내 친구</h2>
+        <h2 className="text-sm font-semibold text-ink/70">내 친구</h2>
         {friends.length === 0 && (
-          <p className="text-sm text-pastel-ink/50">아직 친구가 없어요</p>
+          <p className="text-sm text-ink/45">아직 친구가 없어요</p>
         )}
         {friends.map((f) => (
           <Link
             key={f.id}
             href={`/friends/${f.id}`}
-            className="flex items-center gap-2 rounded-xl border p-3"
+            className="card flex items-center gap-3 p-3.5 transition-transform active:scale-[0.99]"
           >
             <span
-              className="w-8 h-8 rounded-full"
+              className="w-9 h-9 rounded-full ring-2 ring-white shadow-sm"
               style={{ backgroundColor: f.avatar_color }}
             />
-            <span className="flex-1">{f.nickname}</span>
-            <span className="text-pastel-ink/40">›</span>
+            <span className="flex-1 text-ink font-medium">{f.nickname}</span>
+            <span className="text-brand-dark/50">›</span>
           </Link>
         ))}
       </section>

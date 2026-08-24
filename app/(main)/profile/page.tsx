@@ -20,23 +20,24 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="p-4 space-y-4">
-      <h1 className="font-bold text-lg">내 정보</h1>
+    <div className="px-4 pt-6 space-y-4">
+      <h1 className="text-2xl font-bold text-ink">내 정보 🐰</h1>
       {profile && (
-        <div className="rounded-2xl border p-4 space-y-2">
-          <div className="flex items-center gap-3">
+        <div className="card p-5 space-y-4">
+          <div className="flex items-center gap-4">
             <span
-              className="w-12 h-12 rounded-full"
+              className="w-14 h-14 rounded-full ring-2 ring-white shadow-sm"
               style={{ backgroundColor: profile.avatar_color }}
             />
-            <span className="font-semibold text-lg">{profile.nickname}</span>
+            <span className="text-xl font-bold text-ink">{profile.nickname}</span>
           </div>
-          <p className="text-sm">
-            내 친구코드: <b className="tracking-widest">{profile.friend_code}</b>
-          </p>
+          <div className="rounded-xl bg-brand-soft/60 px-4 py-3">
+            <p className="text-xs text-ink/55 mb-0.5">내 친구코드</p>
+            <b className="text-lg tracking-widest text-brand-dark">{profile.friend_code}</b>
+          </div>
         </div>
       )}
-      <button onClick={logout} className="w-full rounded-xl bg-gray-100 py-3">
+      <button onClick={logout} className="btn btn-ghost w-full py-3">
         로그아웃
       </button>
     </div>

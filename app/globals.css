@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #eef6fd;
+  --foreground: #45526a;
 }
 
 @theme inline {
@@ -11,15 +11,99 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  --color-pastel-cream: #fff9f3;
-  --color-pastel-pink: #fbcfe8;
-  --color-pastel-pinkdark: #f472b6;
-  --color-pastel-mint: #a7f3d0;
-  --color-pastel-lavender: #ddd6fe;
-  --color-pastel-ink: #5b5563;
+  /* 하늘색 기반 파스텔 팔레트 */
+  --color-cream: #eef6fd;        /* 화면 배경 (스카이 틴트) */
+  --color-brand: #5aa9e6;        /* 메인 스카이블루 */
+  --color-brand-dark: #3a8ad0;   /* 강조 / 활성 상태 */
+  --color-brand-soft: #dbedfb;   /* 옅은 채움 (선택된 날 등) */
+  --color-mint: #9fe3cf;         /* 보조 포인트 */
+  --color-lavender: #d9d6fb;     /* 보조 포인트 */
+  --color-peach: #ffd7c4;        /* 보조 포인트 */
+  --color-ink: #45526a;          /* 본문 텍스트 (블루그레이) */
+  --color-line: #e2edf8;         /* 테두리 */
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+}
+
+button:not(:disabled),
+a,
+[role="button"],
+label:has(input[type="checkbox"]) {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+@layer components {
+  /* 카드 */
+  .card {
+    background: #ffffff;
+    border: 1px solid var(--color-line);
+    border-radius: 1.25rem;
+    box-shadow: 0 1px 2px rgba(58, 138, 208, 0.05),
+      0 6px 16px rgba(58, 138, 208, 0.05);
+  }
+
+  /* 입력 필드 */
+  .field {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid var(--color-line);
+    border-radius: 0.875rem;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.95rem;
+    color: var(--color-ink);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .field::placeholder {
+    color: color-mix(in srgb, var(--color-ink) 38%, white);
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px var(--color-brand-soft);
+  }
+
+  /* 버튼 */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    border-radius: 0.875rem;
+    font-weight: 600;
+    padding: 0.625rem 1rem;
+    transition: transform 0.1s ease, background-color 0.15s ease, opacity 0.15s ease;
+  }
+  .btn:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+  .btn:disabled {
+    opacity: 0.5;
+  }
+  .btn-primary {
+    background: var(--color-brand);
+    color: #ffffff;
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--color-brand-dark);
+  }
+  .btn-soft {
+    background: var(--color-brand-soft);
+    color: var(--color-brand-dark);
+  }
+  .btn-mint {
+    background: var(--color-mint);
+    color: #1c6b57;
+  }
+  .btn-ghost {
+    background: #eef2f7;
+    color: var(--color-ink);
+  }
 }

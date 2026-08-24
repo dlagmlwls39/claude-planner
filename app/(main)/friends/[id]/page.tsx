@@ -32,14 +32,24 @@ export default function FriendCalendarPage() {
   const dayEvents = events.filter((e) => isSameDay(new Date(e.date + "T00:00"), selected));
 
   return (
-    <div className="pt-4">
-      <header className="flex items-center justify-between px-5 mb-1">
-        <button onClick={() => setCursor(new Date(year, month - 1, 1))}>‹</button>
-        <h1 className="font-bold">친구 캘린더</h1>
-        <button onClick={() => setCursor(new Date(year, month + 1, 1))}>›</button>
+    <div className="px-4 pt-6">
+      <header className="flex items-center justify-between mb-1">
+        <button
+          onClick={() => setCursor(new Date(year, month - 1, 1))}
+          className="flex h-9 w-9 items-center justify-center rounded-full text-brand-dark hover:bg-brand-soft"
+        >
+          ‹
+        </button>
+        <h1 className="text-lg font-bold text-ink">친구 캘린더</h1>
+        <button
+          onClick={() => setCursor(new Date(year, month + 1, 1))}
+          className="flex h-9 w-9 items-center justify-center rounded-full text-brand-dark hover:bg-brand-soft"
+        >
+          ›
+        </button>
       </header>
-      <p className="text-center text-sm text-pastel-ink/60 mb-1">{year}년 {month + 1}월</p>
-      <p className="px-5 text-xs text-pastel-ink/50 mb-2">공개된 일정만 보여요</p>
+      <p className="text-center text-sm text-ink/60 mb-1">{year}년 {month + 1}월</p>
+      <p className="text-center text-xs text-ink/45 mb-3">공개된 일정만 보여요</p>
       <MonthGrid
         year={year}
         month={month}
@@ -51,17 +61,17 @@ export default function FriendCalendarPage() {
         }}
       />
       <BottomSheet open={sheetOpen} onClose={() => setSheetOpen(false)}>
-        <h2 className="font-bold mb-2">{toISODate(selected)}</h2>
+        <h2 className="text-lg font-bold text-ink mb-2">{toISODate(selected)}</h2>
         {dayEvents.length === 0 && (
-          <p className="text-sm text-pastel-ink/50 py-4">공개된 일정이 없어요</p>
+          <p className="text-sm text-ink/45 py-4">공개된 일정이 없어요</p>
         )}
         {dayEvents.map((e) => (
-          <div key={e.id} className="flex items-center gap-2 rounded-xl border p-3 mb-2">
-            <span className="w-2 h-8 rounded-full" style={{ backgroundColor: e.color }} />
+          <div key={e.id} className="card flex items-center gap-3 p-3.5 mb-2">
+            <span className="w-1.5 h-9 rounded-full" style={{ backgroundColor: e.color }} />
             <div>
-              <p className="font-medium">{e.title}</p>
+              <p className="font-medium text-ink">{e.title}</p>
               {!e.is_all_day && (
-                <p className="text-xs text-pastel-ink/50">{e.start_time}~{e.end_time}</p>
+                <p className="text-xs text-ink/45">{e.start_time}~{e.end_time}</p>
               )}
             </div>
           </div>

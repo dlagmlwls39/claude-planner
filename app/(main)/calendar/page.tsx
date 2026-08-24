@@ -31,11 +31,21 @@ export default function CalendarPage() {
   }
 
   return (
-    <div className="pt-4">
-      <header className="flex items-center justify-between px-5 mb-3">
-        <button onClick={() => setCursor(new Date(year, month - 1, 1))}>‹</button>
-        <h1 className="font-bold">{year}년 {month + 1}월</h1>
-        <button onClick={() => setCursor(new Date(year, month + 1, 1))}>›</button>
+    <div className="px-4 pt-6">
+      <header className="flex items-center justify-between mb-4">
+        <button
+          onClick={() => setCursor(new Date(year, month - 1, 1))}
+          className="flex h-9 w-9 items-center justify-center rounded-full text-brand-dark hover:bg-brand-soft"
+        >
+          ‹
+        </button>
+        <h1 className="text-lg font-bold text-ink">{year}년 {month + 1}월</h1>
+        <button
+          onClick={() => setCursor(new Date(year, month + 1, 1))}
+          className="flex h-9 w-9 items-center justify-center rounded-full text-brand-dark hover:bg-brand-soft"
+        >
+          ›
+        </button>
       </header>
       <MonthGrid
         year={year} month={month} events={events}

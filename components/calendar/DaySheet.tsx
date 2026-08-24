@@ -48,26 +48,26 @@ export function DaySheet({
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2.5">
       <div className="flex items-center justify-between">
-        <h2 className="font-bold">{dateISO}</h2>
+        <h2 className="text-lg font-bold text-ink">{dateISO}</h2>
         <button onClick={() => setEditing("new")}
-          className="rounded-full bg-pastel-pink px-3 py-1 text-sm font-semibold">+ 일정</button>
+          className="btn btn-soft px-4 py-1.5 text-sm">+ 일정</button>
       </div>
-      {events.length === 0 && <p className="text-sm text-pastel-ink/50 py-4">일정이 없어요</p>}
+      {events.length === 0 && <p className="text-sm text-ink/45 py-4">일정이 없어요</p>}
       {events.map((e) => (
-        <div key={e.id} className="flex items-center gap-2 rounded-xl border p-3">
-          <span className="w-2 h-8 rounded-full" style={{ backgroundColor: e.color }} />
+        <div key={e.id} className="card flex items-center gap-3 p-3.5">
+          <span className="w-1.5 h-9 rounded-full" style={{ backgroundColor: e.color }} />
           <div className="flex-1">
-            <p className="font-medium">{e.title} {e.is_public && "🌷"}</p>
-            {!e.is_all_day && <p className="text-xs text-pastel-ink/50">{e.start_time}~{e.end_time}</p>}
+            <p className="font-medium text-ink">{e.title} {e.is_public && "🌷"}</p>
+            {!e.is_all_day && <p className="text-xs text-ink/45">{e.start_time}~{e.end_time}</p>}
           </div>
-          <button onClick={() => setEditing(e)} className="text-sm">수정</button>
-          <button onClick={() => handleDelete(e.id)} className="text-sm text-red-400">삭제</button>
+          <button onClick={() => setEditing(e)} className="text-sm text-brand-dark">수정</button>
+          <button onClick={() => handleDelete(e.id)} className="text-sm text-rose-400">삭제</button>
         </div>
       ))}
       <div className="pt-4 space-y-2">
-        <h3 className="font-semibold text-sm">이 날 할 일</h3>
+        <h3 className="font-semibold text-sm text-ink/70">이 날 할 일</h3>
         <form
           onSubmit={async (e) => {
             e.preventDefault();
@@ -79,12 +79,12 @@ export function DaySheet({
           className="flex gap-2"
         >
           <input
-            className="flex-1 rounded-xl border px-3 py-2"
+            className="field flex-1"
             placeholder="할 일 추가"
             value={todoTitle}
             onChange={(e) => setTodoTitle(e.target.value)}
           />
-          <button className="rounded-xl bg-pastel-mint px-4">+</button>
+          <button className="btn btn-mint px-4 text-xl">+</button>
         </form>
         {todos.map((t) => (
           <TodoItem

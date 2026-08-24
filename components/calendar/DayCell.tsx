@@ -15,11 +15,11 @@ export function DayCell({
   return (
     <button
       onClick={onClick}
-      className={`aspect-square rounded-2xl flex flex-col items-center justify-start pt-1 text-sm
-        ${isSelected ? "bg-pastel-pink/60" : "hover:bg-pastel-pink/20"}
-        ${inMonth ? "text-pastel-ink" : "text-pastel-ink/30"}`}
+      className={`aspect-square rounded-2xl flex flex-col items-center justify-start pt-1.5 text-sm transition-colors
+        ${isSelected ? "bg-brand-soft ring-1 ring-brand/30" : "hover:bg-brand-soft/50"}
+        ${inMonth ? "text-ink" : "text-ink/25"}`}
     >
-      <span className={isToday ? "rounded-full bg-pastel-pinkdark text-white w-6 h-6 flex items-center justify-center" : ""}>
+      <span className={isToday ? "rounded-full bg-brand text-white w-6 h-6 flex items-center justify-center font-semibold" : ""}>
         {date.getDate()}
       </span>
       <span className="flex gap-0.5 mt-0.5">

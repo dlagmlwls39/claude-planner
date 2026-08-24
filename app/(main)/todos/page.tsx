@@ -24,16 +24,16 @@ export default function TodosPage() {
   }
 
   return (
-    <div className="p-4 space-y-3">
-      <h1 className="font-bold text-lg">할 일</h1>
+    <div className="px-4 pt-6 space-y-4">
+      <h1 className="text-2xl font-bold text-ink">할 일 ✅</h1>
       <form onSubmit={add} className="flex gap-2">
         <input
-          className="flex-1 rounded-xl border px-3 py-2"
+          className="field flex-1"
           placeholder="할 일 추가"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <button className="rounded-xl bg-pastel-pink px-4 font-semibold">+</button>
+        <button className="btn btn-primary px-5 text-xl">+</button>
       </form>
       <div className="space-y-2">
         {todos.map((t) => (

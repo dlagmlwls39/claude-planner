@@ -24,9 +24,16 @@ export function MonthGrid({
   }
 
   return (
-    <div className="px-3">
-      <div className="grid grid-cols-7 text-center text-xs text-pastel-ink/50 mb-1">
-        {WEEKDAYS.map((w) => <div key={w}>{w}</div>)}
+    <div className="card p-3">
+      <div className="grid grid-cols-7 text-center text-xs font-medium text-ink/45 mb-2">
+        {WEEKDAYS.map((w) => (
+          <div
+            key={w}
+            className={w === "일" ? "text-rose-400" : w === "토" ? "text-brand" : ""}
+          >
+            {w}
+          </div>
+        ))}
       </div>
       <div className="grid grid-cols-7 gap-1">
         {matrix.flat().map((d) => (

@@ -34,38 +34,38 @@ export function EventForm({
   }
 
   return (
-    <form onSubmit={submit} className="space-y-3">
-      <input className="w-full rounded-xl border px-3 py-2" placeholder="일정 제목"
+    <form onSubmit={submit} className="space-y-3.5">
+      <input className="field" placeholder="일정 제목"
         value={title} onChange={(e) => setTitle(e.target.value)} required />
-      <label className="flex items-center gap-2 text-sm">
-        <input type="checkbox" checked={isAllDay} onChange={(e) => setIsAllDay(e.target.checked)} />
+      <label className="flex items-center gap-2 text-sm text-ink">
+        <input type="checkbox" className="h-4 w-4 accent-brand" checked={isAllDay} onChange={(e) => setIsAllDay(e.target.checked)} />
         종일
       </label>
       {!isAllDay && (
         <div className="flex gap-2">
-          <input type="time" className="flex-1 rounded-xl border px-3 py-2"
+          <input type="time" className="field flex-1"
             value={start} onChange={(e) => setStart(e.target.value)} />
-          <input type="time" className="flex-1 rounded-xl border px-3 py-2"
+          <input type="time" className="field flex-1"
             value={end} onChange={(e) => setEnd(e.target.value)} />
         </div>
       )}
-      <div className="flex gap-2">
+      <div className="flex gap-2.5">
         {COLORS.map((c) => (
           <button type="button" key={c} onClick={() => setColor(c)}
-            className={`w-7 h-7 rounded-full ${color === c ? "ring-2 ring-pastel-ink" : ""}`}
+            className={`w-8 h-8 rounded-full transition-transform ${color === c ? "ring-2 ring-offset-2 ring-brand scale-110" : ""}`}
             style={{ backgroundColor: c }} />
         ))}
       </div>
-      <textarea className="w-full rounded-xl border px-3 py-2" placeholder="메모"
+      <textarea className="field" placeholder="메모"
         value={memo} onChange={(e) => setMemo(e.target.value)} />
-      <label className="flex items-center gap-2 text-sm">
-        <input type="checkbox" checked={isPublic} onChange={(e) => setIsPublic(e.target.checked)} />
+      <label className="flex items-center gap-2 text-sm text-ink">
+        <input type="checkbox" className="h-4 w-4 accent-brand" checked={isPublic} onChange={(e) => setIsPublic(e.target.checked)} />
         친구에게 공개
       </label>
       <div className="flex gap-2 pt-2">
         <button type="button" onClick={onCancel}
-          className="flex-1 rounded-xl bg-gray-100 py-2">취소</button>
-        <button className="flex-1 rounded-xl bg-pastel-pink py-2 font-semibold">저장</button>
+          className="btn btn-ghost flex-1 py-2.5">취소</button>
+        <button className="btn btn-primary flex-1 py-2.5">저장</button>
       </div>
     </form>
   );

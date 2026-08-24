@@ -35,29 +35,26 @@ export function FriendSearch({ onRequested }: { onRequested: () => void }) {
     <div className="space-y-2">
       <form onSubmit={search} className="flex gap-2">
         <input
-          className="flex-1 rounded-xl border px-3 py-2"
+          className="field flex-1"
           placeholder="닉네임 또는 친구코드"
           value={q}
           onChange={(e) => setQ(e.target.value)}
         />
-        <button className="rounded-xl bg-pastel-pink px-4 font-semibold">검색</button>
+        <button className="btn btn-primary px-4">검색</button>
       </form>
       {result && (
-        <div className="flex items-center gap-2 rounded-xl border p-3">
+        <div className="card flex items-center gap-3 p-3.5">
           <span
-            className="w-8 h-8 rounded-full"
+            className="w-9 h-9 rounded-full ring-2 ring-white shadow-sm"
             style={{ backgroundColor: result.avatar_color }}
           />
-          <span className="flex-1">{result.nickname}</span>
-          <button
-            onClick={request}
-            className="rounded-full bg-pastel-mint px-3 py-1 text-sm"
-          >
+          <span className="flex-1 text-ink font-medium">{result.nickname}</span>
+          <button onClick={request} className="btn btn-mint px-4 py-1.5 text-sm">
             요청
           </button>
         </div>
       )}
-      {msg && <p className="text-sm text-pastel-ink/60">{msg}</p>}
+      {msg && <p className="text-sm text-ink/55">{msg}</p>}
     </div>
   );
 }
