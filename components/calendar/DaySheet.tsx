@@ -67,10 +67,17 @@ export function DaySheet({
         <div key={e.id} className="card flex items-center gap-3 p-3.5">
           <span className="w-1.5 h-9 rounded-full" style={{ backgroundColor: e.color }} />
           <div className="flex-1">
-            <p className="flex items-center gap-1 font-medium text-ink">
+            <p className="flex items-center gap-1.5 font-medium text-ink">
               {e.title}
+              {e.is_shared && (
+                <span className="inline-flex items-center gap-0.5 rounded-full bg-brand-soft px-1.5 py-0.5 text-[10px] font-medium text-brand-dark">
+                  <FriendsIcon className="h-3 w-3" />함께
+                </span>
+              )}
               {e.is_public && (
-                <FriendsIcon className="h-4 w-4 shrink-0 text-brand-dark" />
+                <span className="rounded-full bg-brand-soft px-1.5 py-0.5 text-[10px] font-medium text-brand-dark">
+                  공개
+                </span>
               )}
             </p>
             {!e.is_all_day && <p className="text-xs text-ink/45">{e.start_time}~{e.end_time}</p>}

@@ -19,6 +19,7 @@ export type EventRow = {
   memo: string | null;
   is_public: boolean;
   created_at: string;
+  is_shared?: boolean; // 조회 시 계산: 참여자가 있거나 내가 참여자인 공유 일정
 };
 
 export type TodoRow = {

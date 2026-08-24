@@ -36,12 +36,28 @@ export async function listMyEventsInRange(
       .in("id", sharedIds)
       .gte("date", startISO)
       .lte("date", endISO);
-    shared = (sharedRows ?? []) as EventRow[];
+    // 내가 참여자인 일정은 모두 공유 일정
+    shared = ((sharedRows ?? []) as EventRow[]).map((e) => ({ ...e, is_shared: true }));
+  }
+
+  // 내가 만든 일정 중 참여자가 있는 것도 공유 일정으로 표시
+  const ownEvents = (own ?? []) as EventRow[];
+  const ownIds = ownEvents.map((e) => e.id);
+  if (ownIds.length > 0) {
+    const { data: ownParts } = await supabase
+      .from("event_participants")
+      .select("event_id")
+      .in("event_id", ownIds)
+      .in("status", ["pending", "accepted"]);
+    const sharedOwn = new Set(
+      ((ownParts ?? []) as { event_id: string }[]).map((p) => p.event_id)
+    );
+    for (const e of ownEvents) e.is_shared = sharedOwn.has(e.id);
   }
 
   // 3) id 기준 병합/중복 제거 후 날짜 정렬
   const byId = new Map<string, EventRow>();
-  for (const e of [...((own ?? []) as EventRow[]), ...shared]) byId.set(e.id, e);
+  for (const e of [...ownEvents, ...shared]) byId.set(e.id, e);
   return Array.from(byId.values()).sort((a, b) => a.date.localeCompare(b.date));
 }
 
