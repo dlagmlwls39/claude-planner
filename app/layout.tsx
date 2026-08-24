@@ -20,10 +20,10 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "우리 캘린더",
+  title: "공유 캘린더",
   description: "친구와 함께 보는 파스텔 캘린더 + 투두",
   manifest: "/manifest.webmanifest",
-  appleWebApp: { capable: true, statusBarStyle: "default", title: "우리 캘린더" },
+  appleWebApp: { capable: true, statusBarStyle: "default", title: "공유 캘린더" },
 };
 
 export default function RootLayout({

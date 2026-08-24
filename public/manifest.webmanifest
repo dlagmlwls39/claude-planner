@@ -1,5 +1,5 @@
 {
-  "name": "우리 캘린더",
+  "name": "공유 캘린더",
   "short_name": "캘린더",
   "start_url": "/calendar",
   "display": "standalone",
