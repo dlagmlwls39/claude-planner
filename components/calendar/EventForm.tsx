@@ -9,10 +9,12 @@ import { Avatar } from "@/components/ui/Avatar";
 const COLORS = ["#A7F3D0", "#FBCFE8", "#DDD6FE", "#FDE68A", "#BFDBFE"];
 
 export function EventForm({
-  date, initial, onSubmit, onCancel,
+  date, initial, canInvite = false, initialFriendIds = [], onSubmit, onCancel,
 }: {
   date: string;
   initial?: EventRow;
+  canInvite?: boolean;
+  initialFriendIds?: string[];
   onSubmit: (input: EventInput, friendIds: string[]) => void | Promise<void>;
   onCancel: () => void;
 }) {
@@ -26,18 +28,21 @@ export function EventForm({
   const [memo, setMemo] = useState(initial?.memo ?? "");
   const [isPublic, setIsPublic] = useState(initial?.is_public ?? false);
 
-  const [withFriends, setWithFriends] = useState(false);
+  const [withFriends, setWithFriends] = useState(initialFriendIds.length > 0);
   const [friends, setFriends] = useState<Profile[]>([]);
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string[]>(initialFriendIds);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
+  // 신규는 토글, 수정(주최자)은 항상 목록 표시
+  const listVisible = canInvite && (isNew ? withFriends : true);
+
   useEffect(() => {
-    if (isNew && withFriends && friends.length === 0) {
+    if (listVisible && friends.length === 0) {
       listFriends(supabase).then(setFriends).catch(console.error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [withFriends]);
+  }, [listVisible]);
 
   function toggleFriend(id: string) {
     setSelected((prev) =>
@@ -50,6 +55,7 @@ export function EventForm({
     setError(null);
     setSaving(true);
     try {
+      const friendIds = canInvite ? (isNew && !withFriends ? [] : selected) : [];
       await onSubmit(
         {
           title: title.trim(),
@@ -59,7 +65,7 @@ export function EventForm({
           end_time: isAllDay ? null : (end || null),
           color, memo: memo.trim() || null, is_public: isPublic,
         },
-        withFriends ? selected : []
+        friendIds
       );
     } catch (err) {
       setError(err instanceof Error ? err.message : "저장에 실패했어요.");
@@ -98,14 +104,18 @@ export function EventForm({
         친구에게 공개
       </label>
 
-      {isNew && (
+      {canInvite && (
         <div className="rounded-xl bg-brand-soft/40 p-3 space-y-2">
-          <label className="flex items-center gap-2 text-sm text-ink">
-            <input type="checkbox" className="h-4 w-4 accent-brand"
-              checked={withFriends} onChange={(e) => setWithFriends(e.target.checked)} />
-            친구와 함께하기
-          </label>
-          {withFriends && (
+          {isNew ? (
+            <label className="flex items-center gap-2 text-sm text-ink">
+              <input type="checkbox" className="h-4 w-4 accent-brand"
+                checked={withFriends} onChange={(e) => setWithFriends(e.target.checked)} />
+              친구와 함께하기
+            </label>
+          ) : (
+            <p className="text-sm font-medium text-ink">친구와 함께하기</p>
+          )}
+          {listVisible && (
             <div className="space-y-1.5">
               {friends.length === 0 && (
                 <p className="text-xs text-ink/45">함께할 친구가 없어요.</p>
@@ -121,9 +131,6 @@ export function EventForm({
                   </button>
                 );
               })}
-              {selected.length > 0 && (
-                <p className="text-xs text-brand-dark">{selected.length}명 초대 예정</p>
-              )}
             </div>
           )}
         </div>
