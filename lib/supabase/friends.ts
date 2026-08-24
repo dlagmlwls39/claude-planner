@@ -45,12 +45,22 @@ export async function findProfile(
 ): Promise<Profile | null> {
   const q = query.trim();
   if (!q) return null;
-  const { data } = await supabase
+
+  // Try nickname exact match first
+  const { data: byNickname } = await supabase
     .from("profiles")
     .select("*")
-    .or(`nickname.eq.${q},friend_code.eq.${q.toUpperCase()}`)
+    .eq("nickname", q)
     .maybeSingle();
-  return (data as Profile) ?? null;
+  if (byNickname) return byNickname as Profile;
+
+  // Then try friend_code exact match
+  const { data: byCode } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("friend_code", q.toUpperCase())
+    .maybeSingle();
+  return (byCode as Profile) ?? null;
 }
 
 export async function sendFriendRequest(
@@ -62,6 +72,17 @@ export async function sendFriendRequest(
   } = await supabase.auth.getUser();
   if (!user) throw new Error("no session");
   if (user.id === addresseeId) throw new Error("자기 자신은 추가할 수 없어요");
+
+  // Check for existing relationship in either direction
+  const { data: existing } = await supabase
+    .from("friendships")
+    .select("id")
+    .or(
+      `and(requester_id.eq.${user.id},addressee_id.eq.${addresseeId}),and(requester_id.eq.${addresseeId},addressee_id.eq.${user.id})`
+    )
+    .maybeSingle();
+  if (existing) throw new Error("이미 친구이거나 요청이 존재해요");
+
   const { error } = await supabase
     .from("friendships")
     .insert({ requester_id: user.id, addressee_id: addresseeId, status: "pending" });

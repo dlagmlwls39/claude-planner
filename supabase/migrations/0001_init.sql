@@ -83,6 +83,7 @@ create policy friendships_select_party on friendships for select
 create policy friendships_insert_requester on friendships for insert
   with check (auth.uid() = requester_id);
 create policy friendships_update_party on friendships for update
-  using (auth.uid() = requester_id or auth.uid() = addressee_id);
+  using (auth.uid() = requester_id or auth.uid() = addressee_id)
+  with check (auth.uid() = requester_id or auth.uid() = addressee_id);
 create policy friendships_delete_party on friendships for delete
   using (auth.uid() = requester_id or auth.uid() = addressee_id);
