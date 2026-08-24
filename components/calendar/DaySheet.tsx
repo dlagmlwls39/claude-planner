@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import type { EventRow, TodoRow } from "@/lib/types";
 import { createBrowserSupabase } from "@/lib/supabase/client";
 import { createEvent, updateEvent, deleteEvent, type EventInput } from "@/lib/supabase/events";
+import { inviteFriendsToEvent } from "@/lib/supabase/event-invites";
 import { listTodosByDate, createTodo, toggleTodo, deleteTodo } from "@/lib/supabase/todos";
 import { TodoItem } from "@/components/todos/TodoItem";
 import { FriendsIcon } from "@/components/ui/icons";
@@ -25,9 +26,15 @@ export function DaySheet({
   }
   useEffect(reloadTodos, [dateISO]);
 
-  async function handleSubmit(input: EventInput) {
-    if (editing === "new") await createEvent(supabase, input);
-    else if (editing) await updateEvent(supabase, editing.id, input);
+  async function handleSubmit(input: EventInput, friendIds: string[]) {
+    if (editing === "new") {
+      const created = await createEvent(supabase, input);
+      if (friendIds.length > 0) {
+        await inviteFriendsToEvent(supabase, created.id, friendIds);
+      }
+    } else if (editing) {
+      await updateEvent(supabase, editing.id, input);
+    }
     setEditing(null);
     onChanged();
   }

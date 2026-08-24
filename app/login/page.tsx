@@ -56,7 +56,7 @@ export default function LoginPage() {
             <CalendarIcon className="h-8 w-8" />
           </div>
           <h1 className="text-2xl font-bold text-ink">
-            {mode === "login" ? "다시 만나서 반가워요" : "함께 시작해요"}
+            {mode === "login" ? "만나서 반가워요" : "함께 시작해요"}
           </h1>
           <p className="mt-1 text-sm text-ink/50">친구와 나누는 일정 다이어리</p>
         </div>

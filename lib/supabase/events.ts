@@ -6,14 +6,43 @@ export async function listMyEventsInRange(
   startISO: string,
   endISO: string
 ): Promise<EventRow[]> {
-  const { data, error } = await supabase
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("no session");
+
+  // 1) 내가 만든 일정
+  const { data: own, error } = await supabase
     .from("events")
     .select("*")
+    .eq("user_id", user.id)
     .gte("date", startISO)
-    .lte("date", endISO)
-    .order("date");
+    .lte("date", endISO);
   if (error) throw error;
-  return (data ?? []) as EventRow[];
+
+  // 2) 내가 수락한 공유 일정
+  const { data: parts } = await supabase
+    .from("event_participants")
+    .select("event_id")
+    .eq("user_id", user.id)
+    .eq("status", "accepted");
+  const sharedIds = ((parts ?? []) as { event_id: string }[]).map((p) => p.event_id);
+
+  let shared: EventRow[] = [];
+  if (sharedIds.length > 0) {
+    const { data: sharedRows } = await supabase
+      .from("events")
+      .select("*")
+      .in("id", sharedIds)
+      .gte("date", startISO)
+      .lte("date", endISO);
+    shared = (sharedRows ?? []) as EventRow[];
+  }
+
+  // 3) id 기준 병합/중복 제거 후 날짜 정렬
+  const byId = new Map<string, EventRow>();
+  for (const e of [...((own ?? []) as EventRow[]), ...shared]) byId.set(e.id, e);
+  return Array.from(byId.values()).sort((a, b) => a.date.localeCompare(b.date));
 }
 
 export async function listFriendEventsInRange(
