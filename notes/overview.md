@@ -22,7 +22,7 @@ Next.js(App Router) + TypeScript + Tailwind v4 + Supabase(Auth/DB/RLS), Vercel �
 - 하늘색 기반 파스텔. 토큰: `brand`/`brand-dark`/`brand-soft`/`cream`/`mint`/`ink`/`line`.
 - 공통 클래스 `.card` `.field` `.btn(-primary/-soft/-mint/-ghost)`로 통일.
 - 모든 메인 페이지 루트 여백은 `px-4 pt-6`으로 고정(탭 간 가로폭 일관성).
-- 폰트: 나눔스퀘어(NanumSquare) self-host(`public/fonts/*.woff2`, 300/400/700/800).
+- 폰트: 나눔스퀘어 네오(NanumSquareNeo) 가변폰트 self-host(`public/fonts/NanumSquareNeo-Variable.woff2`, 300~900).
   타이틀은 `font-extrabold`(800). 탭/파비콘은 통일된 SVG 아이콘(`components/ui/icons.tsx`).
 
 ## 배포/환경
